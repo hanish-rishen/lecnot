@@ -1,11 +1,8 @@
-import ShinyButton from "@/components/magicui/shiny-button";
 import { OrbitingCirclesDemo } from "@/components/OrbitingCircles";
-
-export function ShinyButtonDemo() {
-  return <ShinyButton text="Shiny Button" className="" />;
-}
+import { ShinyButtonDemo } from "@/components/ShinyButton";
 
 export default function Home() {
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-6 md:p-24 bg-gradient-to-b from-black to-gray-900 text-white">
       <section className="flex flex-col items-center text-center mt-10 md:mt-20">
