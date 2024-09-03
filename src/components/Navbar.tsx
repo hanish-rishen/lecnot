@@ -1,19 +1,34 @@
 "use client";
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { auth } from '@/lib/firebase';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [user, loading] = useAuthState(auth);
+  const router = useRouter();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
+  };
+
+  const handleSignOut = async () => {
+    try {
+      await auth.signOut();
+      router.push('/signin');
+    } catch (error) {
+      console.error('Error signing out:', error);
+    }
   };
 
   return (
     <nav className="bg-black border-b border-gray-600 p-4 shadow-lg relative">
       <div className="container mx-auto flex justify-between items-center">
         <div className="text-white text-2xl font-bold flex items-center">
-          <svg fill="#000000" height="24px" width="24px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" 
+        <svg fill="#000000" height="24px" width="24px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" 
                viewBox="0 0 444.489 444.489" xmlSpace="preserve" className="inline-block mr-2 fill-current text-white">
             <path d="M441.56,25.557L418.933,2.929C417.058,1.054,414.514,0,411.862,0s-5.195,1.054-7.071,2.929l-49.862,49.863l-9.899-9.899
               c-3.906-3.905-10.236-3.905-14.143,0l-21.213,21.213l-7.071-7.071l7.071-7.071c3.905-3.905,3.905-10.237,0-14.142
@@ -45,17 +60,31 @@ const Navbar = () => {
         </button>
         <ul className="hidden lg:flex lg:items-center">
           <li className="lg:mr-4">
-            <a href="#about" className="block text-white hover:text-gray-200">About</a>
+            <Link href="/" className="block text-white hover:text-gray-200">Home</Link>
+          </li>
+          {user && (
+            <li className="lg:mr-4">
+              <Link href="/dashboard" className="block text-white hover:text-gray-200">Dashboard</Link>
+            </li>
+          )}
+          <li className="lg:mr-4">
+            <Link href="#about" className="block text-white hover:text-gray-200">About</Link>
           </li>
           <li className="lg:mr-4">
-            <a href="#services" className="block text-white hover:text-gray-200">Services</a>
+            <Link href="#contact" className="block text-white hover:text-gray-200">Contact</Link>
           </li>
-          <li className="lg:mr-4">
-            <a href="#contact" className="block text-white hover:text-gray-200">Contact</a>
-          </li>
-          <li>
-            <button className="bg-white text-black px-4 py-2 rounded hover:bg-gray-200 transition-colors">Sign In</button>
-          </li>
+          {!user && (
+            <li>
+              <Link href="/signin">
+                <button className="bg-white text-black px-4 py-2 rounded hover:bg-gray-200 transition-colors">Sign In</button>
+              </Link>
+            </li>
+          )}
+          {user && (
+            <li>
+              <button onClick={handleSignOut} className="bg-white text-black px-4 py-2 rounded hover:bg-gray-200 transition-colors">Sign Out</button>
+            </li>
+          )}
         </ul>
       </div>
       <AnimatePresence>
@@ -83,7 +112,7 @@ const Navbar = () => {
                   transition={{ delay: 0.1 }}
                   className="mb-6"
                 >
-                  <a href="#about" className="text-3xl font-bold text-white hover:text-gray-300 transition-colors">About</a>
+                  <Link href="#about" className="text-3xl font-bold text-white hover:text-gray-300 transition-colors">About</Link>
                 </motion.li>
                 <motion.li
                   initial={{ opacity: 0, y: 20 }}
@@ -91,7 +120,7 @@ const Navbar = () => {
                   transition={{ delay: 0.2 }}
                   className="mb-6"
                 >
-                  <a href="#services" className="text-3xl font-bold text-white hover:text-gray-300 transition-colors">Services</a>
+                  <Link href="#services" className="text-3xl font-bold text-white hover:text-gray-300 transition-colors">Services</Link>
                 </motion.li>
                 <motion.li
                   initial={{ opacity: 0, y: 20 }}
@@ -99,15 +128,28 @@ const Navbar = () => {
                   transition={{ delay: 0.3 }}
                   className="mb-6"
                 >
-                  <a href="#contact" className="text-3xl font-bold text-white hover:text-gray-300 transition-colors">Contact</a>
+                  <Link href="#contact" className="text-3xl font-bold text-white hover:text-gray-300 transition-colors">Contact</Link>
                 </motion.li>
-                <motion.li
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.4 }}
-                >
-                  <button className="bg-white text-black px-6 py-3 rounded text-2xl font-bold hover:bg-gray-200 transition-colors">Sign In</button>
-                </motion.li>
+                {!user && (
+                  <motion.li
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.4 }}
+                  >
+                    <Link href="/signin">
+                      <button className="bg-white text-black px-6 py-3 rounded text-2xl font-bold hover:bg-gray-200 transition-colors">Sign In</button>
+                    </Link>
+                  </motion.li>
+                )}
+                {user && (
+                  <motion.li
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.4 }}
+                  >
+                    <button onClick={handleSignOut} className="bg-white text-black px-6 py-3 rounded text-2xl font-bold hover:bg-gray-200 transition-colors">Sign Out</button>
+                  </motion.li>
+                )}
               </ul>
             </div>
           </motion.div>
