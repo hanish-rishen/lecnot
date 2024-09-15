@@ -30,9 +30,9 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-black border-b border-gray-600 p-4 shadow-lg relative">
-      <div className="container mx-auto flex justify-between items-center">
-        <Link href="/" className="text-white text-2xl font-bold flex items-center" onClick={closeMenu}>
+    <nav className="bg-black border-b border-gray-600 shadow-lg relative">
+      <div className="container mx-auto px-4 flex justify-between items-center">
+        <Link href="/" className="text-white text-2xl font-bold flex items-center py-4" onClick={closeMenu}>
           <svg fill="#000000" height="24px" width="24px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" 
                viewBox="0 0 444.489 444.489" xmlSpace="preserve" className="inline-block mr-2 fill-current text-white">
             <path d="M441.56,25.557L418.933,2.929C417.058,1.054,414.514,0,411.862,0s-5.195,1.054-7.071,2.929l-49.862,49.863l-9.899-9.899
@@ -51,46 +51,48 @@ const Navbar = () => {
           </svg>
           <span className="align-middle">lecnot</span>
         </Link>
-        <button
-          className="lg:hidden text-white focus:outline-none"
-          onClick={toggleMenu}
-        >
-          <svg className="h-6 w-6 fill-current" viewBox="0 0 24 24">
-            {isMenuOpen ? (
-              <path fillRule="evenodd" clipRule="evenodd" d="M18.278 16.864a1 1 0 0 1-1.414 1.414l-4.829-4.828-4.828 4.828a1 1 0 0 1-1.414-1.414l4.828-4.829-4.828-4.828a1 1 0 0 1 1.414-1.414l4.829 4.828 4.828-4.828a1 1 0 1 1 1.414 1.414l-4.828 4.829 4.828 4.828z" />
-            ) : (
-              <path fillRule="evenodd" d="M4 5h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2z" />
+        <div className="flex items-center">
+          <ul className="hidden lg:flex lg:items-center space-x-4">
+            <li>
+              <Link href="/" className="block text-white hover:text-gray-200 font-bold">Home</Link>
+            </li>
+            {user && (
+              <li>
+                <Link href="/dashboard" className="block text-white hover:text-gray-200 font-bold">Dashboard</Link>
+              </li>
             )}
-          </svg>
-        </button>
-        <ul className="hidden lg:flex lg:items-center">
-          <li className="lg:mr-4">
-            <Link href="/" className="block text-white hover:text-gray-200 font-bold">Home</Link>
-          </li>
-          {user && (
-            <li className="lg:mr-4">
-              <Link href="/dashboard" className="block text-white hover:text-gray-200 font-bold">Dashboard</Link>
-            </li>
-          )}
-          <li className="lg:mr-4">
-            <Link href="#about" className="block text-white hover:text-gray-200 font-bold">About</Link>
-          </li>
-          <li className="lg:mr-4">
-            <Link href="#contact" className="block text-white hover:text-gray-200 font-bold">Contact</Link>
-          </li>
-          {!user && (
             <li>
-              <Link href="/signin">
-                <button className="bg-white text-black px-4 py-2 rounded hover:bg-gray-200 transition-colors font-bold">Sign In</button>
-              </Link>
+              <Link href="#about" className="block text-white hover:text-gray-200 font-bold">About</Link>
             </li>
-          )}
-          {user && (
             <li>
-              <button onClick={handleSignOut} className="bg-white text-black px-4 py-2 rounded hover:bg-gray-200 transition-colors font-bold">Sign Out</button>
+              <Link href="#contact" className="block text-white hover:text-gray-200 font-bold">Contact</Link>
             </li>
-          )}
-        </ul>
+            {!user && (
+              <li>
+                <Link href="/signin">
+                  <button className="bg-white text-black px-4 py-2 rounded hover:bg-gray-200 transition-colors font-bold">Sign In</button>
+                </Link>
+              </li>
+            )}
+            {user && (
+              <li>
+                <button onClick={handleSignOut} className="bg-white text-black px-4 py-2 rounded hover:bg-gray-200 transition-colors font-bold">Sign Out</button>
+              </li>
+            )}
+          </ul>
+          <button
+            className="lg:hidden text-white focus:outline-none ml-4"
+            onClick={toggleMenu}
+          >
+            <svg className="h-6 w-6 fill-current" viewBox="0 0 24 24">
+              {isMenuOpen ? (
+                <path fillRule="evenodd" clipRule="evenodd" d="M18.278 16.864a1 1 0 0 1-1.414 1.414l-4.829-4.828-4.828 4.828a1 1 0 0 1-1.414-1.414l4.828-4.829-4.828-4.828a1 1 0 0 1 1.414-1.414l4.829 4.828 4.828-4.828a1 1 0 1 1 1.414 1.414l-4.828 4.829 4.828 4.828z" />
+              ) : (
+                <path fillRule="evenodd" d="M4 5h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2z" />
+              )}
+            </svg>
+          </button>
+        </div>
       </div>
       <AnimatePresence>
         {isMenuOpen && (
