@@ -23,16 +23,16 @@ const CopyableImage = ({ figure }: { figure: Figure }) => {
   };
 
   return (
-    <div className="border border-gray-300 rounded-lg p-2 mb-4">
-      <p className="text-sm mb-2">{figure.name}</p>
+    <div className="border-2 border-white rounded-lg p-4 mb-4">
+      <p className="text-sm mb-2 font-semibold text-white">{figure.name}</p>
       <img
         src={figure.data}
         alt={figure.name}
-        className="w-full h-auto"
+        className="w-full h-auto border border-gray-300 rounded-lg"
       />
       <button
         onClick={handleCopy}
-        className="mt-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+        className="mt-4 w-full px-4 py-2 bg-black text-white border-2 border-white rounded-md hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white"
       >
         Copy Image
       </button>

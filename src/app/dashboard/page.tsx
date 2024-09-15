@@ -87,12 +87,13 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="flex h-screen bg-gray-100">
+    <div className="flex h-screen bg-black text-white">
       <Sidebar />
-      <main className="flex-1 p-8">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-4">Dashboard</h1>
-          <div className="bg-white p-6 rounded-lg shadow-md">
+      <main className="flex-1 p-8 overflow-auto">
+        <div className="max-w-full mx-auto">
+          <h1 className="text-4xl font-bold mb-8 text-white">Dashboard</h1>
+          <div className="mb-8 border-2 border-white rounded-lg p-6 w-full">
+            <h2 className="text-2xl font-semibold mb-4 text-white">Upload PDF</h2>
             <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
               <input
                 type="file"
@@ -103,47 +104,43 @@ export default function Dashboard() {
               />
               <label
                 htmlFor="fileInput"
-                className="cursor-pointer inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                className="cursor-pointer inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-black bg-white rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white"
               >
                 Choose PDF
               </label>
               {file && (
-                <p className="mt-2 text-sm text-gray-600">
+                <p className="mt-2 text-sm text-gray-300">
                   Selected file: {file.name}
                 </p>
               )}
               <button
                 onClick={handleUpload}
                 disabled={!file || uploading}
-                className="mt-4 inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-md hover:bg-green-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-green-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="mt-4 inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-black bg-white rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {uploading ? 'Uploading...' : 'Upload and Process'}
               </button>
             </div>
             {uploadStatus === 'error' && (
-              <p className="mt-4 text-red-600">{responseData?.error}</p>
+              <p className="mt-4 text-red-400">{responseData?.error}</p>
             )}
             {uploadStatus === 'success' && (
-              <p className="mt-4 text-green-600">File processed successfully!</p>
+              <p className="mt-4 text-green-400">File processed successfully!</p>
             )}
           </div>
-        </div>
-        {responseData && (
-          <div className="flex space-x-8">
-            <div className="w-1/2">
-              <h2 className="text-2xl font-bold mb-4">Extracted Images</h2>
-              <div className="bg-white p-4 rounded-lg shadow-md">
+          {responseData && (
+            <div className="flex flex-col md:flex-row gap-8">
+              <div className="w-full md:w-1/2 border-2 border-white rounded-lg p-6">
+                <h2 className="text-2xl font-semibold mb-4 text-white">Extracted Images</h2>
                 <ImageGallery figures={responseData.figures || []} />
               </div>
-            </div>
-            <div className="w-1/2">
-              <h2 className="text-2xl font-bold mb-4">Generated Notes</h2>
-              <div className="bg-white p-4 rounded-lg shadow-md h-full">
+              <div className="w-full md:w-1/2 border-2 border-white rounded-lg p-6">
+                <h2 className="text-2xl font-semibold mb-4 text-white">Generated Notes</h2>
                 <EditableNotes notes={responseData.notes || ''} onNotesChange={handleNotesChange} />
               </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </main>
     </div>
   );
